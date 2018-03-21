@@ -19,6 +19,8 @@ let binaryExpr = BinaryExpression(x, Plus, five)
 let f = Function("x", binaryExpr)
 let expr = FunctionCall(f, six)
 
+// if (6 == 5) { 1 } else { 0 }
+// if (6 == 6) { 1 } else { 0 }
 let compareToSix x = BinaryExpression(six, Equals, x)
 let trueExpr = IntegerLiteral 1
 let falseExpr = IntegerLiteral 0

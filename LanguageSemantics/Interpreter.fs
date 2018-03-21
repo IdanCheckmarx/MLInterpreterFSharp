@@ -8,30 +8,26 @@ module Return =
 
     let bind2Integer f = fun x y ->
         match x, y with
-        | Success (Value.Integer n1), Success (Value.Integer n2) -> f n1 n2
+        | Success (Value.IntegerInterval(n1, n2)), Success (Value.IntegerInterval(n3, n4)) when n1 = n2 && n3 = n4 -> f n1 n3
         | _ -> RuntimeError
 
-    let Integer n = Success(Value.Integer n)
+    let Integer n = Success(Value.IntegerInterval(n, n))
     let Boolean b = Success(Value.Boolean b)
 
 open AST
-
-let plus = (fun x y -> Return.Integer (x + y))
-let aaa = Return.bind2Integer plus
-
 
 let operationOfOperator operator =
     match operator with
     | Plus -> fun x y -> Return.Integer (x + y)
     | Minus -> fun x y -> Return.Integer (x - y)
     | Multiply -> fun x y -> Return.Integer (x * y)
-    | Divide -> fun x y -> if y = 0 then Return.RuntimeError else Return.Integer (x / y)
-    | Equals -> fun x y -> if x = y then Return.Boolean(true) else Return.Boolean(false)
-    | NotEquals -> fun x y -> if x = y then Return.Boolean(false) else Return.Boolean(true)
-    | GreaterThan -> fun x y -> if x > y then Return.Boolean(true) else Return.Boolean(false)
-    | GreaterThanOrEquals -> fun x y -> if x >= y then Return.Boolean(true) else Return.Boolean(false)
-    | LessThan -> fun x y -> if x < y then Return.Boolean(true) else Return.Boolean(false)
-    | LessThanOrEquals -> fun x y -> if x <= y then Return.Boolean(true) else Return.Boolean(false)
+    | Divide -> fun x y -> if y = 0 then Return.RuntimeError else Return.Integer(x / y)
+    | Equals -> fun x y -> Return.Boolean(x = y)
+    | NotEquals -> fun x y -> Return.Boolean(x <> y)
+    | GreaterThan -> fun x y -> Return.Boolean(x > y)
+    | GreaterThanOrEquals -> fun x y -> Return.Boolean(x >= y)
+    | LessThan -> fun x y -> Return.Boolean(x < y)
+    | LessThanOrEquals -> fun x y -> Return.Boolean(x <= y)
     |> Return.bind2Integer
 
 let rec eval environment expression =
@@ -63,4 +59,3 @@ let rec eval environment expression =
         | Return.Success (Value.Boolean(false)) ->
             eval environment falseExpr
         | _ -> Return.RuntimeError
-
