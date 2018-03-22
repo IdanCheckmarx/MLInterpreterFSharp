@@ -19,13 +19,16 @@ let binaryExpr = BinaryExpression(x, Plus, five)
 let f = Function("x", binaryExpr)
 let expr = FunctionCall(f, six)
 
-// if (6 == 5) { 1 } else { 0 }
+// if (5 == 6) { 1 } else { 0 }
 // if (6 == 6) { 1 } else { 0 }
-let compareToSix x = BinaryExpression(six, Equals, x)
+// if (a == 6) { 1 } else { 0 }
+let compareToSix x = BinaryExpression(x, Equals, six)
 let trueExpr = IntegerLiteral 1
 let falseExpr = IntegerLiteral 0
+let aIdentifier = Identifier "a"
 let ifExpr1 = IfExpr(compareToSix five, trueExpr, falseExpr)
 let ifExpr2 = IfExpr(compareToSix six, trueExpr, falseExpr)
+let ifExpr3 = IfExpr(compareToSix aIdentifier, trueExpr, falseExpr)
 
 [<EntryPoint>]
 let main argv = 
@@ -34,5 +37,16 @@ let main argv =
     let value = eval Map.empty expr
     let ifExpr1Value = eval Map.empty ifExpr1
     let ifExpr2Value = eval Map.empty ifExpr2
+    let ifExpr3Value = eval Map.empty ifExpr3
+    
+    printfn "\nExpected process results:\n"
+    printfn "[0,0]"
+    printfn "[1,1]"
+    printfn "[0,1]"
+
+    printfn "\nActual process results:\n"
+    printfn "%s" (Value.ToString ifExpr1Value)
+    printfn "%s" (Value.ToString ifExpr2Value)
+    printfn "%s" (Value.ToString ifExpr3Value)
 
     0 // return an integer exit code

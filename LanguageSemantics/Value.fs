@@ -34,3 +34,12 @@ let Intersect val1 val2 =
     | String(str1), String(str2) when (str1 = str2) -> val1
     | Boolean(b1), Boolean(b2) when (b1 = b2) -> val1
     | _ -> None
+
+let ToString val1 =
+    match val1 with
+    | IntegerInterval (lower, upper) -> sprintf "[%d,%d]" lower upper
+    | String string -> sprintf "\"%s\"" string
+    | Closure (environment, string, expression) -> "Closure"
+    | Boolean bool -> if bool then "true" else "false"
+    | Any -> "Any"
+    | None -> "None"
