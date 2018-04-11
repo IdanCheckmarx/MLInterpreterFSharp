@@ -3,15 +3,16 @@
 open Microsoft.FSharp.Collections
 
 type value =
-    | IntegerInterval of int * int
+    | IntegerInterval of int * int      // an interval instead of a single value
     | String of string
     | Closure of environment * string * AST.expression
     | Boolean of bool
-    | Any
-    | None
+    | Any                               // represents all possible values
+    | None                              // represents no value (an empty set)
 
 and environment = Map<string, value>
 
+// Addition
 let Union val1 val2 =
     match val1, val2 with
     | _, None -> val1

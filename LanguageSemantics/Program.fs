@@ -35,9 +35,9 @@ let main argv =
     printfn "%A" argv
     
     let value = eval Map.empty expr
-    let ifExpr1Value = eval Map.empty ifExpr1
-    let ifExpr2Value = eval Map.empty ifExpr2
-    let ifExpr3Value = eval Map.empty ifExpr3
+    let ifExpr1Value = eval Map.empty ifExpr1   // returns [0, 0]
+    let ifExpr2Value = eval Map.empty ifExpr2   // returns [1, 1]
+    let ifExpr3Value = eval Map.empty ifExpr3   // returns [0, 1]
     
     printfn "\nExpected process results:\n"
     printfn "[0,0]"
